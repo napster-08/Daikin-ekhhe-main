@@ -159,47 +159,8 @@ void DaikinEkhheComponent::parse_d2_packet(std::vector<uint8_t> buffer) {
 
   // update numbers
   std::map<std::string, float> number_values = {
-      {P1_LOW_WAT_PROBE_HYST,     buffer[D2_PACKET_P1_IDX]},
-      {P2_HEAT_ON_DELAY,          buffer[D2_PACKET_P2_IDX]},
       {P3_ANTL_SET_T,             buffer[D2_PACKET_P3_IDX]},
       {P4_ANTL_DURATION,          buffer[D2_PACKET_P4_IDX]},
-      {P7_DEFROST_CYCLE_DELAY,    buffer[D2_PACKET_P7_IDX]},
-      {P8_DEFR_START_THRES,       (int8_t)buffer[D2_PACKET_P8_IDX]},
-      {P9_DEFR_STOP_THRES,        buffer[D2_PACKET_P9_IDX]},
-      {P10_DEFR_MAX_DURATION,     buffer[D2_PACKET_P10_IDX]},
-      {P17_HP_START_DELAY_DIG1,   buffer[D2_PACKET_P17_IDX]},
-      {P18_LOW_WAT_T_DIG1,        buffer[D2_PACKET_P18_IDX]},
-      {P19_LOW_WAT_T_HYST,        buffer[D2_PACKET_P19_IDX]},
-      {P20_SOL_DRAIN_THRES,       buffer[D2_PACKET_P20_IDX]},
-      {P21_LOW_WAT_T_HP_STOP,     buffer[D2_PACKET_P21_IDX]},
-      {P22_UP_WAT_T_EH_STOP,      buffer[D2_PACKET_P22_IDX]},
-      {P25_UP_WAT_T_OFFSET,       (int8_t)buffer[D2_PACKET_P25_IDX]},
-      {P26_LOW_WAT_T_OFFSET,      (int8_t)buffer[D2_PACKET_P26_IDX]},
-      {P27_INLET_T_OFFSET,        (int8_t)buffer[D2_PACKET_P27_IDX]},
-      {P28_DEFR_T_OFFSET,         (int8_t)buffer[D2_PACKET_P28_IDX]},
-      {P29_ANTL_START_HR,         buffer[D2_PACKET_P29_IDX]},
-      {P30_UP_WAT_T_EH_HYST,      buffer[D2_PACKET_P30_IDX]},
-      {P31_HP_PERIOD_AUTO,        buffer[D2_PACKET_P31_IDX]},
-      {P32_EH_AUTO_TRES,          buffer[D2_PACKET_P32_IDX]},
-      {P34_EEV_SH_PERIOD,         buffer[D2_PACKET_P34_IDX]},
-      {P35_EEV_SH_SETPOINT,       (int8_t)buffer[D2_PACKET_P35_IDX]},
-      {P36_EEV_DSH_SETPOINT,      buffer[D2_PACKET_P36_IDX]},
-      {P37_EEV_STEP_DEFR,         buffer[D2_PACKET_P37_IDX]},      
-      {P38_EEV_MIN_STEP_AUTO,     buffer[D2_PACKET_P38_IDX]},
-      {P40_EEV_INIT_STEP,         buffer[D2_PACKET_P40_IDX]},
-      {P41_AKP1_THRES,            (int8_t)buffer[D2_PACKET_P41_IDX]},
-      {P42_AKP2_THRES,            (int8_t)buffer[D2_PACKET_P42_IDX]},
-      {P43_AKP3_THRES,            (int8_t)buffer[D2_PACKET_P43_IDX]},
-      {P44_EEV_KP1_GAIN,          (int8_t)buffer[D2_PACKET_P44_IDX]},
-      {P45_EEV_KP2_GAIN,          (int8_t)buffer[D2_PACKET_P45_IDX]},
-      {P46_EEV_KP3_GAIN,          (int8_t)buffer[D2_PACKET_P46_IDX]},
-      {P47_MAX_INLET_T_HP,        buffer[D2_PACKET_P47_IDX]},
-      {P48_MIN_INLET_T_HP,        (int8_t)buffer[D2_PACKET_P48_IDX]},
-      {P49_EVA_INLET_THRES,       buffer[D2_PACKET_P49_IDX]},
-      {P50_ANTIFREEZE_SET,        buffer[D2_PACKET_P50_IDX]},
-      {P51_EVA_HIGH_SET,          buffer[D2_PACKET_P51_IDX]},
-      {P52_EVA_LOW_SET,           buffer[D2_PACKET_P52_IDX]},
-
       {ECO_T_TEMPERATURE,         buffer[D2_PACKET_ECO_TTARGET_IDX]},
       {AUTO_T_TEMPERATURE,        buffer[D2_PACKET_AUTO_TTARGET_IDX]},
       {BOOST_T_TEMPERATURE,       buffer[D2_PACKET_BOOST_TTGARGET_IDX]},
@@ -216,21 +177,9 @@ void DaikinEkhheComponent::parse_d2_packet(std::vector<uint8_t> buffer) {
       // Some variables are bitmasks - clean these up later by parameterizing
       // Mask 1
       {POWER_STATUS,           buffer[D2_PACKET_MASK1_IDX] & 0x01},
-      {P39_EEV_MODE,          (buffer[D2_PACKET_MASK1_IDX] & 0x04) >> 2},
-      {P13_HW_CIRC_PUMP_MODE, (buffer[D2_PACKET_MASK1_IDX] & 0x10) >> 4},
-      // Mask 2
-      {P11_DISP_WAT_T_PROBE,   buffer[D2_PACKET_MASK2_IDX] & 0x01},
-      {P15_SAFETY_SW_TYPE,    (buffer[D2_PACKET_MASK2_IDX] & 0x02) >> 1},
-      {P5_DEFROST_MODE,       (buffer[D2_PACKET_MASK2_IDX] & 0x04) >> 2},
-      {P6_EHEATER_DEFROSTING, (buffer[D2_PACKET_MASK2_IDX] & 0x08) >> 3},
-      {P33_EEV_CONTROL,       (buffer[D2_PACKET_MASK2_IDX] & 0x10) >> 4},
-      // The rest
+       // Mask 2
       {OPERATIONAL_MODE,       buffer[D2_PACKET_MODE_IDX]},
-      {P12_EXT_PUMP_MODE,      buffer[D2_PACKET_P12_IDX]},
-      {P14_EVA_BLOWER_TYPE,    buffer[D2_PACKET_P14_IDX]},
-      {P16_SOLAR_MODE_INT,     buffer[D2_PACKET_P16_IDX]},
-      {P23_PV_MODE_INT,        buffer[D2_PACKET_P23_IDX]},
-      {P24_OFF_PEAK_MODE,      buffer[D2_PACKET_P24_IDX]},
+    
   };
 
   for (const auto &entry : select_values) {
@@ -605,4 +554,5 @@ void DaikinEkhheComponent::send_uart_cc_command(uint8_t index, uint8_t value, ui
 
 
 }  // namespace daikin_ekkhe
+
 }  // namespace esphome
