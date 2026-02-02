@@ -57,6 +57,10 @@ CONFIG_SCHEMA = (
                 cv.GenerateID(): cv.declare_id(DaikinEkhheSelect),
                 cv.Optional(CONF_OPTIONS, default={0: 'Auto', 1: 'Eco', 2: 'Boost', 3: 'Electrique', 4: 'Ventilateur', 5: 'Vacances'}): ensure_option_map
             }),
+            cv.Optional(P11_DISP_WAT_T_PROBE): select.select_schema(DaikinEkhheSelect).extend({
+                cv.GenerateID(): cv.declare_id(DaikinEkhheSelect),
+                cv.Optional(CONF_OPTIONS, default={0: 'Bas', 1: 'Haut'}): ensure_option_map
+            }),
             cv.Optional(P24_OFF_PEAK_MODE): select.select_schema(DaikinEkhheSelect).extend({
                 cv.GenerateID(): cv.declare_id(DaikinEkhheSelect),
                 cv.Optional(CONF_OPTIONS, default={0: 'Toujours Désactiver', 1: 'activer en Eco', 2: 'activer en Auto'}): ensure_option_map
@@ -91,4 +95,5 @@ async def to_code(config):
     hub = await cg.get_variable(config[CONF_EKHHE_ID])
     for key in TYPES:
         await setup_conf(config, key, hub)
+
 
